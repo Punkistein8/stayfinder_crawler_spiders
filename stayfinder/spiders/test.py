@@ -5,6 +5,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
+from ..items import ZzItem
+
 options = webdriver.ChromeOptions()
 
 options.add_argument("--no-sandbox")
@@ -31,4 +33,10 @@ class TestSpider(scrapy.Spider):
         rawData = driver.find_elements(By.CLASS_NAME, 'bfdHYd')
         for card in rawData:
             hotel = card.find_element(By.CLASS_NAME, 'qBF1Pd').text
+
+            items = ZzItem()
+
+            items['nombreHotel'] = hotel
+
+            yield items
             print(hotel)

@@ -9,4 +9,5 @@ import scrapy
 class ZzItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    nombreHotel = scrapy.Field()
+    pass  # pass is a placeholder for future code
