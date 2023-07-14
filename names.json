@@ -1,10 +1,10 @@
 [
-{"nombreHotel": "Hotel Endamo"},
-{"nombreHotel": "HOTEL SAN AGUSTIN"},
-{"nombreHotel": "THE BRONX HOTEL"},
-{"nombreHotel": "Hostal Café Tiana"},
-{"nombreHotel": "Hospedaje la Posada del Viajero"},
-{"nombreHotel": "Villa de Tacvnga"},
-{"nombreHotel": "Hotel Endamo"},
-{"nombreHotel": "REEC Latacunga by Oro Verde Hotels"}
-] 
+{"nombreHotel": "Hotel Endamo", "estrellas": "4,4"},
+{"nombreHotel": "HOTEL SAN AGUSTIN", "estrellas": "4,6"},
+{"nombreHotel": "THE BRONX HOTEL", "estrellas": "4,3"},
+{"nombreHotel": "Hostal Café Tiana", "estrellas": "4,2"},
+{"nombreHotel": "Hospedaje la Posada del Viajero", "estrellas": "4,2"},
+{"nombreHotel": "Villa de Tacvnga", "estrellas": "4,3"},
+{"nombreHotel": "Hotel Endamo", "estrellas": "4,4"},
+{"nombreHotel": "REEC Latacunga by Oro Verde Hotels", "estrellas": "4,6"}
+]

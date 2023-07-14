@@ -44,8 +44,14 @@ class TestSpider(scrapy.Spider):
 
             wait = WebDriverWait(driver, 10)
 
-            nombre_hotel = wait.until(EC.visibility_of_element_located(
+            nombreHotel = wait.until(EC.visibility_of_element_located(
                 (By.CLASS_NAME, 'DUwDvf'))).text
+
+            containerEstrellas = wait.until(EC.visibility_of_element_located(
+                (By.CLASS_NAME, 'F7nice')))
+
+            estrellas = containerEstrellas.find_element(
+                By.TAG_NAME, 'span').text
 
             try:
                 driver.find_element(By.CLASS_NAME, 'yHy1rc').click()
@@ -54,6 +60,8 @@ class TestSpider(scrapy.Spider):
 
             items = ZzItem()
 
-            items['nombreHotel'] = nombre_hotel
+            items['nombreHotel'] = nombreHotel
+
+            items['estrellas'] = estrellas
 
             yield items
