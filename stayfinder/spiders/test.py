@@ -1,7 +1,8 @@
 import scrapy
 from scrapy.selector import Selector
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
@@ -11,10 +12,11 @@ options = webdriver.ChromeOptions()
 
 options.add_argument("--no-sandbox")
 
+options.add_argument("--start-maximized")
+
 # options.add_argument("--headless")
 
 options.add_argument('--disable-dev-shm-usage')
-
 
 driver = webdriver.Chrome(service=Service(
     'C:\chromedriver.exe'), options=options)
@@ -29,14 +31,29 @@ class TestSpider(scrapy.Spider):
 
     def parse(self, response):
         driver.get(response.url)
-        # driver.implicitly_wait(10)
-        rawData = driver.find_elements(By.CLASS_NAME, 'bfdHYd')
-        for card in rawData:
-            hotel = card.find_element(By.CLASS_NAME, 'qBF1Pd').text
+        driver.implicitly_wait(10)
+
+        cardsContainer = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.CLASS_NAME, 'dS8AEf')))
+
+        rawCards = cardsContainer.find_elements(
+            By.CLASS_NAME, 'Nv2PK')
+
+        for card in rawCards:
+            card.click()
+
+            wait = WebDriverWait(driver, 10)
+
+            nombre_hotel = wait.until(EC.visibility_of_element_located(
+                (By.CLASS_NAME, 'DUwDvf'))).text
+
+            try:
+                driver.find_element(By.CLASS_NAME, 'yHy1rc').click()
+            except:
+                pass
 
             items = ZzItem()
 
-            items['nombreHotel'] = hotel
+            items['nombreHotel'] = nombre_hotel
 
             yield items
-            print(hotel)
