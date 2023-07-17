@@ -36,6 +36,8 @@ class MapsPipeline:
         self.client.close()
 
     def process_item(self, item, spider):
+
         data = dict(MapsItem(item))
+        # print(data.estrellas)
         self.db[self.collection].insert_one(data)
         return item
