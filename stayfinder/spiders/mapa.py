@@ -78,17 +78,22 @@ class MapaSpider(scrapy.Spider):
                 
                 nombreHotel = wait.until(EC.visibility_of_element_located(
                     (By.CLASS_NAME, 'DUwDvf'))).text
+                
+                time.sleep(1)
 
                 containerEstrellas = wait.until(EC.visibility_of_element_located(
                     (By.CLASS_NAME, 'F7nice')))
                 estrellas = containerEstrellas.find_element(
                     By.TAG_NAME, 'span').text
 
+                time.sleep(1)
+                
                 containerPrecio = wait.until(EC.visibility_of_element_located(
                     (By.CLASS_NAME, 'dkgw2')))
                 precio = containerPrecio.find_element(
                     By.TAG_NAME, 'span').text
 
+                time.sleep(1)
 
                 wait.until(EC.element_to_be_clickable(
                     (By.CLASS_NAME, 'yHy1rc'))).click()
