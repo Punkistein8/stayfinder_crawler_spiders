@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 
 from ..items import MapsItem
@@ -32,8 +33,6 @@ class MapaSpider(scrapy.Spider):
         driver.get(response.url)
         driver.implicitly_wait(10)
 
-        # cardsContainer = WebDriverWait(driver, 10).until(
-        #     EC.element_to_be_clickable((By.CLASS_NAME, 'dS8AEf')))
         cardsContainer = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, '#QA0Szd > div > div > div.w6VYqd > div:nth-child(2) > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd')))
 
@@ -43,13 +42,13 @@ class MapaSpider(scrapy.Spider):
                 "arguments[0].scrollTop = arguments[0].scrollHeight", cardsContainer)
             time.sleep(1)
 
-            # if i == 6:
-            #     try:
-            #         driver.find_element(By.CLASS_NAME, 'HlvSq')
-            #         print('No hay mas hoteles')
-            #         break
-            #     except NoSuchElementException:
-            #         pass
+            if i == 6:
+                try:
+                    driver.find_element(By.CLASS_NAME, 'HlvSq')
+                    print('No hay mas hoteles')
+                    break
+                except NoSuchElementException:
+                    pass
 
         WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.CLASS_NAME, 'Nv2PK')))
@@ -73,9 +72,16 @@ class MapaSpider(scrapy.Spider):
 
                 containerEstrellas = wait.until(EC.visibility_of_element_located(
                     (By.CLASS_NAME, 'F7nice')))
-
                 estrellas = containerEstrellas.find_element(
                     By.TAG_NAME, 'span').text
+
+                containerPrecio = wait.until(EC.visibility_of_element_located(
+                    (By.CLASS_NAME, 'dkgw2')))
+                precio = containerPrecio.find_element(
+                    By.TAG_NAME, 'span').text
+
+                # precio = wait.until(
+                #     lambda driver: driver.find_elements(By.CLASS_NAME, 'Cbys4b')).text
 
                 wait.until(EC.element_to_be_clickable(
                     (By.CLASS_NAME, 'yHy1rc'))).click()
@@ -86,7 +92,7 @@ class MapaSpider(scrapy.Spider):
             items = MapsItem()
 
             items['nombreHotel'] = nombreHotel
-
             items['estrellas'] = estrellas
+            items['precio'] = precio
 
             yield items
