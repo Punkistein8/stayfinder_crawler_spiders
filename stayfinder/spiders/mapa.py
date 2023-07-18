@@ -37,7 +37,7 @@ class MapaSpider(scrapy.Spider):
         cardsContainer = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, '#QA0Szd > div > div > div.w6VYqd > div:nth-child(2) > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd')))
 
-        for i in range(0, 5):
+        for i in range(0, 0):
             print('Scrolling... #', i)
             driver.execute_script(
                 "arguments[0].scrollTop = arguments[0].scrollHeight", cardsContainer)

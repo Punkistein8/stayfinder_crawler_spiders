@@ -9,11 +9,14 @@ import pymongo
 import sys
 from .items import MapsItem
 
+from scrapy.exceptions import DropItem
+
 
 class MapsPipeline:
     collection = 'hoteles'
 
     def __init__(self, mongodb_uri, mongodb_db):
+        self.items_seen = set()
         self.mongodb_uri = mongodb_uri
         self.mongodb_db = mongodb_db
         if not self.mongodb_uri:
@@ -36,8 +39,12 @@ class MapsPipeline:
         self.client.close()
 
     def process_item(self, item, spider):
-
         data = dict(MapsItem(item))
-        # print(data.estrellas)
-        self.db[self.collection].insert_one(data)
-        return item
+        nombreHotel = data.get('nombreHotel')
+
+        if nombreHotel in self.items_seen:
+            raise DropItem("🙀 Duplicate item found: %s" % item)
+        else:
+            self.items_seen.add(nombreHotel)
+            self.db[self.collection].insert_one(data)
+            return item
