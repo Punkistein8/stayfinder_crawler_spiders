@@ -12,4 +12,5 @@ class MapsItem(scrapy.Item):
     nombreHotel = scrapy.Field()
     estrellas = scrapy.Field()
     precio = scrapy.Field()
+    foto = scrapy.Field()
     pass  #
