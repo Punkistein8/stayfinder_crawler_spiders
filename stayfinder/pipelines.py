@@ -13,7 +13,7 @@ from scrapy.exceptions import DropItem
 
 
 class MapsPipeline:
-    collection = 'hoteles'
+    collection = 'hotelesPrueba'
 
     def __init__(self, mongodb_uri, mongodb_db):
         self.items_seen = set()
@@ -41,9 +41,15 @@ class MapsPipeline:
     def process_item(self, item, spider):
         data = dict(MapsItem(item))
         nombreHotel = data.get('nombreHotel')
+        precio = data.get('precio')
 
         if nombreHotel in self.items_seen:
-            raise DropItem("🙀 Duplicate item found: %s" % item)
+            raise DropItem("¡🙀 Se encontró un item duplicado!: %s" % item)
+
+        if precio in self.items_seen:
+            # asignar otro precio
+            data['precio'] = precio + 5
+
         else:
             self.items_seen.add(nombreHotel)
             self.db[self.collection].insert_one(data)

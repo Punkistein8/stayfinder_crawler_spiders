@@ -53,15 +53,13 @@ class MapaSpider(scrapy.Spider):
         WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.CLASS_NAME, 'Nv2PK')))
 
-        # rawCards = cardsContainer.find_elements(
-        #     By.CLASS_NAME, 'Nv2PK')
-
         rawCards = WebDriverWait(driver, 10).until(
             lambda driver: driver.find_elements(By.CLASS_NAME, 'Nv2PK')
         )
 
         wait = WebDriverWait(driver, 10)
         for card in rawCards:
+            items = MapsItem()
             try:
                 wait.until(EC.element_to_be_clickable(card)).click()
                 card.click()
@@ -73,12 +71,12 @@ class MapaSpider(scrapy.Spider):
                     (By.CLASS_NAME, 'aoRNLd')))
                 foto = contenedorFoto.find_element(
                     By.TAG_NAME, 'img').get_attribute('src')
-                
+
                 time.sleep(1)
-                
+
                 nombreHotel = wait.until(EC.visibility_of_element_located(
                     (By.CLASS_NAME, 'DUwDvf'))).text
-                
+
                 time.sleep(1)
 
                 containerEstrellas = wait.until(EC.visibility_of_element_located(
@@ -87,14 +85,28 @@ class MapaSpider(scrapy.Spider):
                     By.TAG_NAME, 'span').text
 
                 time.sleep(1)
-                
+
                 containerPrecio = wait.until(EC.visibility_of_element_located(
                     (By.CLASS_NAME, 'dkgw2')))
-                precio = containerPrecio.find_element(
-                    By.TAG_NAME, 'span').text
 
-                time.sleep(1)
+                if containerPrecio.find_elements(By.TAG_NAME, 'span'):
+                    time.sleep(1)
+                    print('Hay precio ✅')
+                    precio = containerPrecio.find_element(
+                        By.TAG_NAME, 'span').text
+                else:
+                    print('No hay precio ❌')
+                    precio = 'No Disponible ❌'
 
+# CODIGO NUEVO
+                informacionContainer = card.find_elements(
+                    By.CLASS_NAME, 'W4Efsd')
+
+                itemsInfo = []
+
+                for info in informacionContainer:
+                    itemsInfo.append(info.text)
+# CODIGO NUEVO
                 wait.until(EC.element_to_be_clickable(
                     (By.CLASS_NAME, 'yHy1rc'))).click()
 
@@ -103,11 +115,10 @@ class MapaSpider(scrapy.Spider):
                 pass
             driver.implicitly_wait(10)
 
-            items = MapsItem()
-
             items['nombreHotel'] = nombreHotel
             items['estrellas'] = estrellas
             items['precio'] = precio
             items['foto'] = foto
-
+            items['informacion'] = itemsInfo
+            # items['informacion'] = informacion
             yield items

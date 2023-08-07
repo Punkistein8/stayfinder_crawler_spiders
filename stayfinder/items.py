@@ -13,4 +13,5 @@ class MapsItem(scrapy.Item):
     estrellas = scrapy.Field()
     precio = scrapy.Field()
     foto = scrapy.Field()
+    informacion = scrapy.Field()
     pass  #
