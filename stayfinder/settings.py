@@ -67,7 +67,7 @@ ITEM_PIPELINES = {
 }
 
 # MONGODB_URI = "mongodb://localhost:27017/"
-MONGODB_URI = "mongodb+srv://stayfinder:SAUL123@stayfindercluster.g4ae8v1.mongodb.net/?retryWrites=true&w=majority"
+MONGODB_URI = "AQUI VA LA URI"
 MONGODB_DATABASE = "stayfinder"
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/la test/topics/autothrottle.html
