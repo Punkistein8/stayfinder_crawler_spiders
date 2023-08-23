@@ -13,7 +13,7 @@ from scrapy.exceptions import DropItem
 
 
 class MapsPipeline:
-    collection = 'hotelesPrueba'
+    collection = 'hoteles'
 
     def __init__(self, mongodb_uri, mongodb_db):
         self.items_seen = set()

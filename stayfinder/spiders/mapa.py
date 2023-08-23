@@ -8,7 +8,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-
+# new
+from webdriver_manager.chrome import ChromeDriverManager
+# new
 
 from ..items import MapsItem
 
@@ -18,8 +20,10 @@ options.add_argument("--start-maximized")
 # options.add_argument("--headless")
 options.add_argument('--disable-dev-shm-usage')
 
-driver = webdriver.Chrome(service=Service(
-    '../../chromedriver.exe'), options=options)
+driver = webdriver.Chrome(service=Service('../../chromedriver116.exe'), options=options)
+# new
+# driver = webdriver.Chrome(ChromeDriverManager().install())
+# new
 
 
 class MapaSpider(scrapy.Spider):
@@ -106,6 +110,8 @@ class MapaSpider(scrapy.Spider):
 
                 for info in informacionContainer:
                     itemsInfo.append(info.text)
+
+                urlActual = driver.current_url
 # CODIGO NUEVO
                 wait.until(EC.element_to_be_clickable(
                     (By.CLASS_NAME, 'yHy1rc'))).click()
@@ -120,5 +126,5 @@ class MapaSpider(scrapy.Spider):
             items['precio'] = precio
             items['foto'] = foto
             items['informacion'] = itemsInfo
-            # items['informacion'] = informacion
+            items['url'] = urlActual
             yield items

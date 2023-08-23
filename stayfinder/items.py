@@ -14,4 +14,5 @@ class MapsItem(scrapy.Item):
     precio = scrapy.Field()
     foto = scrapy.Field()
     informacion = scrapy.Field()
+    url = scrapy.Field()
     pass  #
